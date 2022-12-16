@@ -11,6 +11,7 @@ var App = () => {
 
   var selectVideo = function(video) {
     setCurrentVideo(video);
+
   };
 
   return (<div>
