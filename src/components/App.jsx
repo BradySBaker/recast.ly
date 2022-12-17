@@ -37,6 +37,7 @@ var App = () => {
     </div>
   </div>);
 };
+//
 
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope
