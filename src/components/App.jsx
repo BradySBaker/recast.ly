@@ -2,6 +2,7 @@ import Search from './Search.js';
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
 import exampleVideoData from '../data/exampleVideoData.js';
+import searchYoutube from '../lib/searchYouTube.js';
 
 var App = () => {
   const { useState } = React;
@@ -9,15 +10,21 @@ var App = () => {
   const [videoList, setVideoList] = useState(exampleVideoData);
   const [currentVideo, setCurrentVideo] = useState(videoList[0]);
 
+  var updateList = function(query) {
+    searchYoutube(query, (data) => {
+      setVideoList(data);
+      selectVideo(data[0]);
+    });
+  };
+
   var selectVideo = function(video) {
     setCurrentVideo(video);
-
   };
 
   return (<div>
     <nav className="navbar">
       <div className="col-md-6 offset-md-3">
-        {<Search />}
+        {<Search updateList={updateList}/>}
       </div>
     </nav>
     <div className="row">
