@@ -6,21 +6,13 @@ import exampleVideoData from '../data/exampleVideoData.js';
 var initialized = true;
 var videoData = exampleVideoData;
 
-var readyToSearch = true;
+var timeOut = null;
 
-var debouncer = () => {
-  if (readyToSearch === true) {
-    readyToSearch = false;
-    setTimeout(() => readyToSearch = true, 500);
-    return true;
-  }
-  return false;
-};
 
 var App = (props) => {
   const { useState, useEffect } = React;
 
-  if (props.searchYouTube && initialized) {
+  if (initialized && props.searchYouTube) {
     initialized = false;
     props.searchYouTube('react', (data) => (videoData = data));
   }
@@ -29,12 +21,14 @@ var App = (props) => {
   const [currentSearch, setCurrentSearch] = useState('');
 
   useEffect(() => {
-    if (debouncer() && currentSearch !== '') {
-      console.log(currentSearch);
-      props.searchYouTube(currentSearch, (data) => setVideoList(data));
-      selectVideo(videoList[0]);
+    //Debouncer
+    if (timeOut) {
+      clearTimeout(timeOut);
     }
-  });
+    timeOut = setTimeout(() => {
+      props.searchYouTube(currentSearch, (data) => { if (data.length >= 1) { setVideoList(data); setCurrentVideo(data[0]); } });
+    }, 500);
+  }, [currentSearch]);
 
   var selectVideo = function(video) {
     setCurrentVideo(video);
