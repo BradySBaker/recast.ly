@@ -15,7 +15,7 @@ var searchYouTube = (query, callback) => {
       callback(data);
     },
     error: (error) => {
-      console.log('Failed to fecth youtube data ', error);
+      console.log('Failed to fetch youtube data ', error);
     }
   });
 };
